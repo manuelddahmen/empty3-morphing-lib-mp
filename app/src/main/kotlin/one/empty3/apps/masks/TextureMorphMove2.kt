@@ -450,16 +450,16 @@ class TextureMorphMove2(
             }
             distanceAB = editData.distanceAB
             val nanoElapsed = System.nanoTime() - timeStarted
-            val secs = (10E-9 * nanoElapsed).toInt()
+            val secs = (1e-9 * nanoElapsed).toInt()
             val mins = (secs / 60).toInt()
             val hours =( mins / 60).toInt()
             val days = (hours / 24).toInt()
             Logger.getAnonymousLogger().log(
                 Level.INFO,
                 "Temps écoulé à produire l'objet DistanceAB (" + pDistanceAbClass.canonicalName +
-                        ") à : " + 10E-9 * nanoElapsed + secs + "s"+ mins + "m"+ hours + "h"+ days + "d")
+                        ") à : " + 1e-9 * nanoElapsed + secs + "s"+ mins + "m"+ hours + "h"+ days + "d")
             println("Temps écoulé à produire l'objet DistanceAB (" + pDistanceAbClass.canonicalName +
-                    ") à : " + 10E-9 * nanoElapsed + secs + "s"+ mins + "m"+ hours + "h"+ days + "d")
+                    ") à : " + 1e-9 * nanoElapsed + secs + "s"+ mins + "m"+ hours + "h"+ days + "d")
         }
         this.distanceAB = editData.distanceAB
         Logger.getAnonymousLogger().log(Level.INFO, "distanceAb: " + editData.distanceAB!!.javaClass+ " "+ distanceAB!!.javaClass)
@@ -489,15 +489,20 @@ class TextureMorphMove2(
                 if (!line.isEmpty()) {
                     landmarkType = line
                     // X
-                    line = iterator.next().trim { it <= ' ' }
-                    x = line.toDouble()
-                    // Y
-                    line = iterator.next().trim { it <= ' ' }
-                    y = line.toDouble()
-                    // Blank line
-                    line = iterator.next().trim { it <= ' ' }
-
-                    points[landmarkType] = Point3D(x, y, 0.0)
+                    if (iterator.hasNext()) {
+                        line = iterator.next().trim { it <= ' ' }
+                        x = line.toDouble()
+                        // Y
+                        if (iterator.hasNext()) {
+                            line = iterator.next().trim { it <= ' ' }
+                            y = line.toDouble()
+                            // Blank line (optional read to consume separator)
+                            if (iterator.hasNext()) {
+                                iterator.next()
+                            }
+                            points[landmarkType] = Point3D(x, y, 0.0)
+                        }
+                    }
                 }
             }
             Logger.getAnonymousLogger()
