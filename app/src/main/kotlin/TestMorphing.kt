@@ -1,3 +1,5 @@
+import one.empty3.apps.facedetect.jvm.FaceDetectApp
+import one.empty3.apps.facedetect.jvm.FaceDetectApp.getVisionService
 import one.empty3.apps.masks.MovieMorphing
 import one.empty3.apps.testobject.TestObjetStub
 import one.empty3.library.Point3D
@@ -41,26 +43,43 @@ class TestMorphing : TestObjetStub() {
                 }
             }
             assert(model != null)
-            val txt1 = HashMap<String, Point3D>()
-            val txt3 = HashMap<String, Point3D>()
-            val percent = FctXY().setFormulaX("x")
 
-            val settings = HashMap<String, Any>()
-            settings["useMaxRes"] = true
-            settings["maxResWidth"] = 200
-            settings["maxResHeight"] = 200
-            settings["useConstantMeshIncrement"] = true
-            
-            val morphing = MovieMorphing(
-                10, image1, model!!, image3, txt1, txt3, false, 0, false, settings, percent
-            )
 
-            val resultFile = morphing.run()
-            println("Morphing completed. Result: ${resultFile.absolutePath}")
-        } catch (e: Exception) {
-            e.printStackTrace()
-            throw e
-        }
+            val faceDetectApp = FaceDetectApp(getVisionService())
+
+            try {
+
+                val loadText1FormImage: String= faceDetectApp.loadTextFormImage(image1)
+                val loadText3FormImage: String = faceDetectApp.loadTextFormImage(image1)
+
+                val txt1: Map<String, Point3D> = faceDetectApp.loadTxt(image1, loadText1FormImage)
+                val txt3: Map<String, Point3D> = faceDetectApp.loadTxt(image3, loadText3FormImage)
+
+
+                val percent = FctXY().setFormulaX("x")
+
+
+                val settings = HashMap<String, Any>()
+                settings["useMaxRes"] = true
+                settings["maxResWidth"] = 200
+                settings["maxResHeight"] = 200
+                settings["useConstantMeshIncrement"] = true
+
+                val morphing = MovieMorphing(
+                    10, image1, model!!, image3, txt1, txt3, false, 0, false, settings, percent
+                )
+
+                val resultFile = morphing.run()
+                println("Morphing completed. Result: ${resultFile.absolutePath}")
+            } catch (e: Exception) {
+                e.printStackTrace()
+                throw e
+            }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                throw e
+            }
+
     }
 }
 

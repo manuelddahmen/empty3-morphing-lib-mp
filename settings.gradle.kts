@@ -29,3 +29,7 @@ plugins {
 include(":app")
 
 rootProject.name = "empty3-library-mp-morphing"
+
+gradle.allprojects {
+    layout.buildDirectory.set(rootDir.resolve("build-output/${project.path.replace(':', '_')}"))
+}

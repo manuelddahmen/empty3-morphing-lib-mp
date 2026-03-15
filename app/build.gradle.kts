@@ -37,7 +37,7 @@ signing {
 }
 
 val JAVA_VERSION = 25
-val versionName = "2026.3.14-25"
+val versionName = "2026.3.15-25"
 java {
 }
 
@@ -57,10 +57,11 @@ tasks.register("testMorphing", JavaExec::class.java) {
 
 
 dependencies {
-    implementation("one.empty3:empty3-library-mp:2026.3.14-21")
+    implementation("one.empty3:empty3-library-mp:2026.3.15-25")
     implementation("one.empty3.libs:partial-desktop:0.0.39-17")
     implementation("one.empty3.libs:commons-mp:0.0.17-17")
     implementation(kotlin("stdlib-jdk8"))
+    implementation("com.google.apis:google-api-services-vision:v1-rev20251120-2.0.0")
 }
 
 val vArtifactId = "empty3-library-mp-morphing"
