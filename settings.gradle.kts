@@ -1,3 +1,8 @@
+pluginManagement {
+    plugins {
+        kotlin("jvm") version "2.3.10"
+    }
+}
 // The settings file is the entry point of every Gradle build.
 // Its primary purpose is to define the subprojects.
 // It is also used for some aspects of project-wide configuration, like managing plugins, dependencies, etc.
@@ -23,4 +28,4 @@ plugins {
 // Learn more about structuring projects with Gradle - https://docs.gradle.org/8.7/userguide/multi_project_builds.html
 include(":app")
 
-rootProject.name = "empty3-morphing-lib-mp"
+rootProject.name = "empty3-library-mp-morphing"
