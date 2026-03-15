@@ -19,6 +19,7 @@ import one.empty3.library.Point3D
 import one.empty3.library.Scene
 import one.empty3.library.ZBufferImpl
 import one.empty3.library.ZBufferImpl.IncrementOptimizer
+import one.empty3.library.core.nurbs.FctXY
 import one.empty3.library.objloader.E3Model
 import one.empty3.libs.Image
 import java.io.File
@@ -41,7 +42,7 @@ class MovieMorphing(imagesCount:Int,
                     var algorithm: Int,
                     private var service: Boolean,
                     private var settings: Map<String, *>?,
-
+                    private var percent: FctXY
                     ) {
     private var maxMeshIncrement by Delegates.notNull<Int>()
     private var minMeshIncrement by Delegates.notNull<Int>()
@@ -118,8 +119,9 @@ class MovieMorphing(imagesCount:Int,
 
     fun run() : File {
         for (i in 0 until imagesCount) {
-            val percent = i.toDouble() / imagesCount.toDouble()
-            createTexture(percent)
+            val x = i.toDouble() / imagesCount.toDouble()
+            val fx : Double = percent.result(x)
+            createTexture(x)
             this.text2 = HashMap<String, Point3D>()
 
             text1?.forEach { (string1, d1) ->
@@ -128,15 +130,14 @@ class MovieMorphing(imagesCount:Int,
                         run {
                             if (string3.equals(string1)) {
                                 (this.text2 as HashMap)[string3] = d1.plus(
-                                    d3.moins(d1).mult(i.toDouble() / imagesCount.toDouble())
-                                )
+                                    (d3.moins(d1)).mult(x))
                             }
                         }
                     }
                 }
             }
 
-            runZbuffer(image1!!, model, image3!!, text1!!, text2!!, text3!!, hd_textures, algorithm, true, service,  settings, percent)
+            runZbuffer(image1!!, model, image3!!, text1!!, text2!!, text3!!, hd_textures, algorithm, true, service,  settings)
         }
         return File("")
     }
@@ -153,7 +154,6 @@ class MovieMorphing(imagesCount:Int,
         bool2: Boolean,
         service: Boolean,
         settings: kotlin.collections.Map<String, *>?,
-        percent: Double
     ) : Image {
         if (!initialized) {
             throw RuntimeException("Not initialized")

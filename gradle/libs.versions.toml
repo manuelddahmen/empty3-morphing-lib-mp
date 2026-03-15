@@ -1,9 +1,10 @@
 # Version catalog is a central place for you to declare and version dependencies
 # https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
+# Updated to Kotlin 2.3.10 ecosystem
 
 [versions]
-kotlin = "2.3.0"
+kotlin = "2.3.10"
 kotlinxDatetime = "0.7.1"
 kotlinxSerializationJSON = "1.9.0"
 kotlinxCoroutines = "1.10.2"

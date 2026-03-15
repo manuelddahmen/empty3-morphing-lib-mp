@@ -35,6 +35,7 @@ import one.empty3.library.Point3D
 import one.empty3.library.Scene
 import one.empty3.library.ZBufferImpl
 import one.empty3.library.ZBufferImpl.IncrementOptimizer
+import one.empty3.library.core.nurbs.FctXY
 import one.empty3.library.objloader.E3Model
 import one.empty3.libs.Color
 import one.empty3.libs.Image
@@ -190,7 +191,8 @@ class RunZBuffer(
             hd_textures,
             algorithm,
             isService,
-            settings
+            settings,
+            FctXY().setFormulaX("x")
         )
         morphing.run()
 
